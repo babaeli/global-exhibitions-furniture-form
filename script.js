@@ -140,8 +140,11 @@ function handleFormSubmit(e) {
     // Get form data
     const formData = collectFormData();
     
-    // Log order data (in production, this would be sent to a server)
+    // Log order data
     console.log('Order Data:', formData);
+    
+    // Send email to Global Exhibitions
+    sendOrderEmail(formData);
     
     // Show success message
     displaySuccessMessage(formData);
@@ -231,6 +234,7 @@ function addOrderDetailsToSuccess(formData) {
     const detailsHTML = `
         <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 8px; margin-top: 20px; text-align: left;">
             <h4 style="margin-bottom: 15px; text-align: center;">Order Summary</h4>
+            <p><strong>📧 Sent to:</strong> info@globalexhibitions.africa</p>
             <p><strong>Company:</strong> ${formData.companyInfo.companyName}</p>
             <p><strong>Contact:</strong> ${formData.companyInfo.contactPerson}</p>
             <p><strong>Email:</strong> ${formData.companyInfo.email}</p>
@@ -238,6 +242,7 @@ function addOrderDetailsToSuccess(formData) {
             <p><strong>Total Items:</strong> ${formData.items.length}</p>
             <p><strong>Payment Method:</strong> ${formatPaymentMethod(formData.payment.method)}</p>
             ${formData.lateOrder ? '<p style="color: #ffeb3b;"><strong>⚠ Late Order Surcharge Applied (50%)</strong></p>' : ''}
+            <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);"><em>✓ Order email sent successfully to Global Exhibitions Inc.</em></p>
         </div>
         <button onclick="downloadOrderSummary()" class="btn-secondary" style="margin-top: 20px; background: white; color: #11998e; border: 2px solid white;">
             Download Order Summary
@@ -425,6 +430,96 @@ function loadSavedDraft() {
 // Export function for download button in success message
 window.downloadOrderSummary = downloadOrderSummary;
 
+// Send order email to Global Exhibitions
+function sendOrderEmail(formData) {
+    // Prepare email body
+    const emailBody = generateEmailBody(formData);
+    
+    // Using FormSubmit.co for email forwarding (free service)
+    const formSubmitUrl = 'https://formsubmit.co/info@globalexhibitions.africa';
+    
+    // Create form data for submission
+    const submitData = new FormData();
+    submitData.append('_subject', `New Furniture Order from ${formData.companyInfo.companyName}`);
+    submitData.append('_template', 'table');
+    submitData.append('_captcha', 'false');
+    submitData.append('_next', window.location.href + '#success');
+    
+    // Add company info
+    submitData.append('Company Name', formData.companyInfo.companyName);
+    submitData.append('Contact Person', formData.companyInfo.contactPerson);
+    submitData.append('Email', formData.companyInfo.email);
+    submitData.append('Phone', formData.companyInfo.phone);
+    submitData.append('Booth Number', formData.companyInfo.boothNumber || 'N/A');
+    
+    // Add delivery info
+    submitData.append('Delivery Date', formData.delivery.deliveryDate);
+    submitData.append('Time Slot', formData.delivery.timeSlot || 'Not specified');
+    submitData.append('Special Instructions', formData.delivery.specialInstructions || 'None');
+    
+    // Add order summary
+    submitData.append('Order Total', formData.orderSummary.total);
+    submitData.append('Late Order', formData.lateOrder ? 'YES (50% surcharge applied)' : 'NO');
+    
+    // Add items list
+    let itemsList = '';
+    formData.items.forEach((item, index) => {
+        itemsList += `${index + 1}. ${item.name} - Qty: ${item.quantity} - ${item.subtotal}\n`;
+    });
+    submitData.append('Ordered Items', itemsList);
+    
+    // Send email via fetch
+    fetch(formSubmitUrl, {
+        method: 'POST',
+        body: submitData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Email sent successfully:', data);
+    })
+    .catch(error => {
+        console.error('Email sending failed:', error);
+        // Continue anyway - user still gets download
+    });
+}
+
+// Generate email body text
+function generateEmailBody(formData) {
+    let body = '=== NEW FURNITURE ORDER ===\n\n';
+    body += '--- COMPANY INFORMATION ---\n';
+    body += `Company: ${formData.companyInfo.companyName}\n`;
+    body += `Contact: ${formData.companyInfo.contactPerson}\n`;
+    body += `Email: ${formData.companyInfo.email}\n`;
+    body += `Phone: ${formData.companyInfo.phone}\n`;
+    body += `Booth: ${formData.companyInfo.boothNumber || 'N/A'}\n\n`;
+    
+    body += '--- ORDERED ITEMS ---\n';
+    formData.items.forEach((item, index) => {
+        body += `${index + 1}. ${item.name}\n`;
+        body += `   Quantity: ${item.quantity} | Price: ${item.price} | Subtotal: ${item.subtotal}\n`;
+    });
+    
+    body += `\n--- ORDER SUMMARY ---\n`;
+    body += `Subtotal: ${formData.orderSummary.subtotal}\n`;
+    if (formData.lateOrder) {
+        body += `Late Fee (50%): ${formData.orderSummary.lateFee}\n`;
+    }
+    body += `TOTAL: ${formData.orderSummary.total}\n\n`;
+    
+    body += '--- DELIVERY INFO ---\n';
+    body += `Date: ${formatDate(formData.delivery.deliveryDate)}\n`;
+    body += `Time: ${formData.delivery.timeSlot || 'Not specified'}\n`;
+    body += `Instructions: ${formData.delivery.specialInstructions || 'None'}\n\n`;
+    
+    body += `Payment Method: ${formatPaymentMethod(formData.payment.method)}\n`;
+    
+    return body;
+}
+
 // Console log for debugging
 console.log('Furniture Order Form initialized successfully');
 console.log('Total items in catalog:', document.querySelectorAll('.qty-input').length);
+console.log('Email will be sent to: info@globalexhibitions.africa');
