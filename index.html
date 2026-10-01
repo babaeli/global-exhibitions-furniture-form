@@ -1,0 +1,750 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Furniture Order Form - Global Exhibitions Inc.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="form-header">
+            <div class="company-info">
+                <h1>Global Exhibitions Inc.</h1>
+                <p>Cardinal Otunga Plaza â€“ Annex | P.O. Box 53920 â€“ 00200</p>
+                <p>Email: info@globalexhibitions.africa | Tel. +254 794 007 810</p>
+            </div>
+            <h2 class="form-title">EXTRA FURNITURE ORDER FORM 2026</h2>
+            <p class="form-subtitle">Please provide all data requested to enable us to action your order. Keep a copy for your records.</p>
+        </header>
+
+        <form id="furnitureForm">
+            <!-- Company Information -->
+            <section class="form-section">
+                <h3>Company Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="companyName">Company Name *</label>
+                        <input type="text" id="companyName" name="companyName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPerson">Contact Person *</label>
+                        <input type="text" id="contactPerson" name="contactPerson" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="boothNumber">Booth/Stand Number</label>
+                        <input type="text" id="boothNumber" name="boothNumber">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Furniture Catalogue -->
+            <section class="form-section">
+                <h3>Furniture Catalogue</h3>
+                <div class="alert alert-info">
+                    <strong>Note:</strong> All prices are inclusive of taxes. Late requests (after deadline) subject to 20% surcharge.
+                </div>
+                
+                <div class="catalogue-table">
+                    <table id="furnitureTable">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Description</th>
+                                <th>Duration</th>
+                                <th>Price (USD)</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Branding -->
+                            <tr data-price="40">
+                                <td>1</td>
+                                <td><img src="images/seamless.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SEAMLESS BRANDING</td>
+                                <td>PER SQM</td>
+                                <td>$40.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="seamless-branding"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="30">
+                                <td>2</td>
+                                <td><img src="images/panel-branding.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">PANEL BRANDING</td>
+                                <td>PER PANEL</td>
+                                <td>$30.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="panel-branding"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Chairs -->
+                            <tr data-price="45">
+                                <td>3</td>
+                                <td><img src="images/orso-chairs.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">ORSO CHAIRS</td>
+                                <td>PER EVENT</td>
+                                <td>$45.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="orso-chairs"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="45">
+                                <td>4</td>
+                                <td><img src="images/maui-visitor-chair.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">MAUI VISITOR CHAIR</td>
+                                <td>PER EVENT</td>
+                                <td>$45.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="maui-visitor-chair"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="180">
+                                <td>5</td>
+                                <td><img src="images/office-chair-1.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">OFFICE CHAIR</td>
+                                <td>PER EVENT</td>
+                                <td>$180.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="office-chair-1"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="180">
+                                <td>6</td>
+                                <td><img src="images/office-chair-2.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">OFFICE CHAIR \(Type 2\)</td>
+                                <td>PER EVENT</td>
+                                <td>$180.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="office-chair-2"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="225">
+                                <td>-</td>
+                                <td><img src="images/office-chair-3.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">OFFICE CHAIR (Executive)</td>
+                                <td>PER EVENT</td>
+                                <td>$225.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="office-chair-executive"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="36">
+                                <td>7</td>
+                                <td><img src="images/visitor-chair.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">VISITOR CHAIR</td>
+                                <td>PER EVENT</td>
+                                <td>$36.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="visitor-chair"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Bar Stools -->
+                            <tr data-price="75">
+                                <td>8</td>
+                                <td><img src="images/chrome-bar-stool-leather.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">CHROME BAR STOOL - LEATHER</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="bar-stool-chrome-leather"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>9</td>
+                                <td><img src="images/bar-stool-smile.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">BAR STOOL SMILE</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="bar-stool-smile"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>10</td>
+                                <td><img src="images/bar-stool-trent.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">BAR STOOL TRENT</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="bar-stool-trent"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="90">
+                                <td>11</td>
+                                <td><img src="images/bar-stool-chrome-legs.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">BAR STOOL WITH CHROME LEGS</td>
+                                <td>PER EVENT</td>
+                                <td>$90.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="bar-stool-chrome-legs"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>12</td>
+                                <td><img src="images/bar-stool-bucket.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">BAR STOOL BUCKET WITH CHROME LEGS</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="bar-stool-bucket"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Sofas -->
+                            <tr data-price="105">
+                                <td>13</td>
+                                <td><img src="images/sofa-single-white-1.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SOFA SEAT - SINGLE WHITE</td>
+                                <td>PER EVENT</td>
+                                <td>$105.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="sofa-single-white-1"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="135">
+                                <td>14</td>
+                                <td><img src="images/sofa-double-white.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SOFA SEAT - DOUBLE WHITE</td>
+                                <td>PER EVENT</td>
+                                <td>$135.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="sofa-double-white"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="105">
+                                <td>17</td>
+                                <td><img src="images/sofa-single-white-2.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SOFA SEAT - SINGLE SEATER WHITE \(Type 2\)</td>
+                                <td>PER EVENT</td>
+                                <td>$105.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="sofa-single-white-2"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="105">
+                                <td>-</td>
+                                <td><img src="images/sofa-brown.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SOFA BROWN (SINGLE SEATER)</td>
+                                <td>PER EVENT</td>
+                                <td>$105.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="sofa-single-brown"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="150">
+                                <td>18</td>
+                                <td><img src="images/sofa-premium-1.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SOFA SEAT - SINGLE SEATER WHITE \(Premium\)</td>
+                                <td>PER EVENT</td>
+                                <td>$150.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="sofa-single-white-premium-1"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="150">
+                                <td>19</td>
+                                <td><img src="images/sofa-premium-1.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SOFA SEAT - SINGLE SEATER WHITE \(Premium Type 2\)</td>
+                                <td>PER EVENT</td>
+                                <td>$150.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="sofa-single-white-premium-2"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Tables -->
+                            <tr data-price="75">
+                                <td>15</td>
+                                <td><img src="images/round-table-white.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">ROUND TABLE WITH WHITE COLOR 900D</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="round-table-white"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>16</td>
+                                <td><img src="images/small-coffee-table.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SMALL COFFEE TABLE</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="coffee-table-small"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>20</td>
+                                <td><img src="images/coffee-table-white.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">COFFEE TABLE - WHITE</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="coffee-table-white"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>21</td>
+                                <td><img src="images/coffee-table-white-glass.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">COFFEE TABLE - WHITE & GLASS</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="coffee-table-white-glass"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>22</td>
+                                <td><img src="images/cocktail-table-chrome.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">COCKTAIL/HIGH TABLE - CHROME & GLASS</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="cocktail-table-chrome"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="195">
+                                <td>23</td>
+                                <td><img src="images/counter-table.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">COUNTER TABLE</td>
+                                <td>PER EVENT</td>
+                                <td>$195.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="counter-table"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="105">
+                                <td>24</td>
+                                <td><img src="images/tressle-table.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">TRESSLE TABLE</td>
+                                <td>PER EVENT</td>
+                                <td>$105.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tressle-table"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Storage & Display -->
+                            <tr data-price="195">
+                                <td>25</td>
+                                <td><img src="images/lockable-cupboard.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">LOCKABLE CUPBOARD - WHITE</td>
+                                <td>PER EVENT</td>
+                                <td>$195.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="lockable-cupboard"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="225">
+                                <td>26</td>
+                                <td><img src="images/glass-showcase-small.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">GLASS SHOWCASE \(H:1\.0M L:1\.0M W:0\.5M\)</td>
+                                <td>PER EVENT</td>
+                                <td>$225.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="glass-showcase-small"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="225">
+                                <td>27</td>
+                                <td><img src="images/reception-display-cabinet.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">RECEPTION DISPLAY CABINET</td>
+                                <td>PER EVENT</td>
+                                <td>$225.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="reception-display-cabinet"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="360">
+                                <td>28</td>
+                                <td><img src="images/large-showcase.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">LARGE SHOWCASE \(H:1\.5M L:0\.7M W:0\.5M\)</td>
+                                <td>PER EVENT</td>
+                                <td>$360.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="large-showcase"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="45">
+                                <td>29</td>
+                                <td>BROCHURE HOLDER - ZIG ZAG</td>
+                                <td>PER EVENT</td>
+                                <td>$45.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="brochure-holder"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="30">
+                                <td>30</td>
+                                <td><img src="images/wooden-shelf.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">PANEL MOUNTED WOODEN SHELF \(PER PIECE\)</td>
+                                <td>PER EVENT</td>
+                                <td>$30.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="wooden-shelf"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Electronics -->
+                            <tr data-price="900">
+                                <td>31</td>
+                                <td><img src="images/tv-65.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SMART TV 65" LED TV WITH STAND \(3 DAYS\)</td>
+                                <td>PER EVENT</td>
+                                <td>$900.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tv-65"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="165">
+                                <td>32</td>
+                                <td><img src="images/tv-55.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SMART TV 55" LED TV WITH STAND \(3 DAYS\)</td>
+                                <td>PER EVENT</td>
+                                <td>$165.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tv-55"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="135">
+                                <td>33</td>
+                                <td><img src="images/tv-40.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">SMART TV 40" LED TV WITH STAND \(3 DAYS\)</td>
+                                <td>PER EVENT</td>
+                                <td>$135.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tv-40"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="150">
+                                <td>34</td>
+                                <td><img src="images/water-dispenser.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">WATER DISPENSER 20LTR BOTTLE WITH 12 CUPS</td>
+                                <td>PER EVENT</td>
+                                <td>$150.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="water-dispenser"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="195">
+                                <td>35</td>
+                                <td><img src="images/coffee-maker.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">COFFEE MAKER \(INCLUDES COFFEE, CUPS, MILK & SUGAR\)</td>
+                                <td>PER EVENT</td>
+                                <td>$195.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="coffee-maker"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="208">
+                                <td>36</td>
+                                <td><img src="images/door-lockable.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">DOOR - LOCKABLE</td>
+                                <td>PER EVENT</td>
+                                <td>$208.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="lockable-door"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="140">
+                                <td>37</td>
+                                <td><img src="images/fridge-small.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">FRIDGE \(SMALL\)</td>
+                                <td>PER EVENT</td>
+                                <td>$140.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="fridge-small"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="200">
+                                <td>38</td>
+                                <td><img src="images/fridge-large.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">FRIDGE \(LARGE\)</td>
+                                <td>PER EVENT</td>
+                                <td>$200.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="fridge-large"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Flooring -->
+                            <tr data-price="10">
+                                <td>39</td>
+                                <td><img src="images/carpet-royal-blue.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">CARPET - ROYAL BLUE</td>
+                                <td>PER SQM</td>
+                                <td>$10.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="carpet-blue"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="10">
+                                <td>40</td>
+                                <td><img src="images/carpet-red.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">CARPET - RED</td>
+                                <td>PER SQM</td>
+                                <td>$10.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="carpet-red"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Services -->
+                            <tr data-price="200">
+                                <td>41</td>
+                                <td><img src="images/hostess.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">HOSTESS \(FOR 3 EXHIBITION DAYS\)</td>
+                                <td>PER EVENT</td>
+                                <td>$200.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="hostess"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="240">
+                                <td>42</td>
+                                <td><img src="images/booth-cleaning.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">DAILY BOOTH CLEANING</td>
+                                <td>PER EVENT</td>
+                                <td>$240.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="booth-cleaning"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            
+                            <!-- Plants & Flowers -->
+                            <tr data-price="75">
+                                <td>43</td>
+                                <td><img src="images/potted-plant-1.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">POTTED PLANTS \(Type 1\)</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="potted-plant-1"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>44</td>
+                                <td><img src="images/potted-plant-2.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">POTTED PLANTS \(Type 2\)</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="potted-plant-2"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>45</td>
+                                <td><img src="images/potted-plant-3.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">POTTED PLANTS \(Type 3\)</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="potted-plant-3"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>46</td>
+                                <td><img src="images/potted-plant-4.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">POTTED PLANTS \(Type 4\)</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="potted-plant-4"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="75">
+                                <td>47</td>
+                                <td><img src="images/potted-plant-5.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">POTTED PLANTS \(Type 5\)</td>
+                                <td>PER EVENT</td>
+                                <td>$75.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="potted-plant-5"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="150">
+                                <td>48</td>
+                                <td><img src="images/potted-plant-6.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">POTTED PLANTS \(Large\)</td>
+                                <td>PER EVENT</td>
+                                <td>$150.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="potted-plant-large"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="90">
+                                <td>49</td>
+                                <td><img src="images/potted-plant-7.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">FRESH BOUQUET OF FLOWER</td>
+                                <td>PER EVENT</td>
+                                <td>$90.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="fresh-bouquet"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="135">
+                                <td>50</td>
+                                <td><img src="images/fresh-table-flowers.png" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:10px;vertical-align:middle;">FRESH TABLE SETUP FLOWERS</td>
+                                <td>PER EVENT</td>
+                                <td>$135.00</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="table-flowers"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Electrical Services -->
+            <section class="form-section">
+                <h3>Electrical Services</h3>
+                <div class="alert alert-warning">
+                    <strong>Note:</strong> Electrical supplies for "Space Only" stands must be ordered separately. Price includes current consumed but does not include distribution board.
+                </div>
+                
+                <div class="catalogue-table">
+                    <table id="electricalTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Item</th>
+                                <th>USD</th>
+                                <th>KES</th>
+                                <th>Quantity</th>
+                                <th>Subtotal (USD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-price="45">
+                                <td>51</td>
+                                <td>EXTENSION CABLE</td>
+                                <td>$45</td>
+                                <td>-</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="extension-cable"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="36">
+                                <td>52</td>
+                                <td>SPOTLIGHT</td>
+                                <td>$36</td>
+                                <td>-</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="spotlight"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="92">
+                                <td>SPM15</td>
+                                <td>15 Amps single phase main</td>
+                                <td>$92</td>
+                                <td>12,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="spm15"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="137">
+                                <td>SPM30</td>
+                                <td>30 Amps single phase main</td>
+                                <td>$137</td>
+                                <td>18,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="spm30"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="92">
+                                <td>TPM10</td>
+                                <td>10 Amps three phase main</td>
+                                <td>$92</td>
+                                <td>12,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tpm10"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="122">
+                                <td>TPM15</td>
+                                <td>15 Amps three phase main</td>
+                                <td>$122</td>
+                                <td>16,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tpm15"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="168">
+                                <td>TPM30</td>
+                                <td>30 Amps three phase main</td>
+                                <td>$168</td>
+                                <td>22,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tpm30"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="228">
+                                <td>TPM60</td>
+                                <td>60 Amps three phase main</td>
+                                <td>$228</td>
+                                <td>30,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tpm60"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="228">
+                                <td>SDB01</td>
+                                <td>Single phase distribution board</td>
+                                <td>$228</td>
+                                <td>30,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="sdb01"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                            <tr data-price="343">
+                                <td>TDB01</td>
+                                <td>2 Phase distribution board</td>
+                                <td>$343</td>
+                                <td>45,000</td>
+                                <td><input type="number" min="0" value="0" class="qty-input" data-item="tdb01"></td>
+                                <td class="subtotal">$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Delivery & Setup -->
+            <section class="form-section">
+                <h3>Delivery & Setup Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="deliveryDate">Preferred Delivery Date *</label>
+                        <input type="date" id="deliveryDate" name="deliveryDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeSlot">Time Slot (9AM - 5PM)</label>
+                        <select id="timeSlot" name="timeSlot">
+                            <option value="">Select time slot</option>
+                            <option value="9am-11am">9:00 AM - 11:00 AM</option>
+                            <option value="11am-1pm">11:00 AM - 1:00 PM</option>
+                            <option value="1pm-3pm">1:00 PM - 3:00 PM</option>
+                            <option value="3pm-5pm">3:00 PM - 5:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="specialInstructions">Special Instructions</label>
+                        <textarea id="specialInstructions" name="specialInstructions" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="artworkDeadline">Artwork Deadline (if applicable)</label>
+                        <input type="date" id="artworkDeadline" name="artworkDeadline">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Late Order -->
+            <section class="form-section">
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="lateOrder" name="lateOrder">
+                        This is a late order (within 7 days of event build-up) - 50% surcharge applies
+                    </label>
+                </div>
+            </section>
+
+            <!-- Order Summary -->
+            <section class="form-section order-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotalAmount">$0.00</span>
+                    </div>
+                    <div class="summary-row" id="lateFeeSummary" style="display: none;">
+                        <span>Late Order Surcharge (50%):</span>
+                        <span id="lateFeeAmount">$0.00</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span><strong>Total Amount Due (USD):</strong></span>
+                        <span id="totalAmount"><strong>$0.00</strong></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payment Information -->
+            <section class="form-section">
+                <h3>Payment Information</h3>
+                <div class="form-group">
+                    <label>Preferred Payment Method *</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="paymentMethod" value="bank-transfer" required>
+                            Bank Transfer
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="paymentMethod" value="credit-card">
+                            Credit Card (invoice will be sent)
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="paymentMethod" value="cash">
+                            Cash on Arrival
+                        </label>
+                    </div>
+                </div>
+
+                <div class="bank-details">
+                    <h4>Bank Details</h4>
+                    <p><strong>Account Name:</strong> GLOBAL EXHIBITIONS INCORPORATED LIMITED</p>
+                    <p><strong>Bank Name:</strong> STANBIC BANK</p>
+                    <p><strong>Branch Name:</strong> INTERNATIONAL LIFE HOUSE</p>
+                    <p><strong>Account No (KSH):</strong> 0100003753586</p>
+                    <p><strong>Account No (USD):</strong> 0100003753594</p>
+                    <p><strong>SWIFT Code:</strong> SBICKENX</p>
+                    <p><strong>Bank Code:</strong> 31</p>
+                    <p><strong>Branch Code:</strong> 008</p>
+                </div>
+            </section>
+
+            <!-- Terms and Conditions -->
+            <section class="form-section">
+                <h3>Terms and Conditions</h3>
+                <div class="terms-box">
+                    <ul>
+                        <li>Prices are inclusive of all taxes.</li>
+                        <li>Orders will be confirmed once full payment is received.</li>
+                        <li>Late requests (after deadline) are subject to availability and a 20% surcharge.</li>
+                        <li>50% surcharge is applicable on orders received less than 7 days prior to the start of the build-up of the exhibition or for any onsite modification.</li>
+                        <li>Exhibitors are responsible for the condition of all rented furniture.</li>
+                        <li>Damaged or missing items will be charged at replacement cost.</li>
+                        <li>All pictures shown are for illustration purposes only. Actual product may vary due to product enhancement.</li>
+                        <li>Items will not be supplied if payments are not received in advance, before commencement of build-up.</li>
+                        <li>Complete this form 15 days before the event showing location of items on grid along with the remittance.</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                        I agree to the terms and conditions *
+                    </label>
+                </div>
+            </section>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Submit Order</button>
+                <button type="button" class="btn-secondary" onclick="window.print()">Print Order Form</button>
+            </div>
+        </form>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message" style="display: none;">
+            <h3>âœ“ Order Submitted Successfully!</h3>
+            <p>Thank you for your order. We have received your furniture request and will contact you shortly to confirm.</p>
+            <p><strong>Order Total:</strong> <span id="successTotal"></span></p>
+            <p>A copy of your order has been prepared. Please check your email for confirmation.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

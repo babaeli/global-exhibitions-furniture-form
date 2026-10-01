@@ -1,0 +1,17 @@
+{
+  "name": "global-exhibitions-furniture-form",
+  "version": "1.0.0",
+  "description": "Online furniture order form for Global Exhibitions Inc.",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "furniture",
+    "order-form",
+    "global-exhibitions"
+  ],
+  "author": "Global Exhibitions Inc.",
+  "license": "ISC"
+}

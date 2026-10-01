@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+*.log
+.vercel
+.env
+index-backup.html
+index-with-images.html
+add-images-to-html.js
+update-html-with-images.ps1

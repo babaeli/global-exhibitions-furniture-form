@@ -1,0 +1,7 @@
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="80" fill="#e0e0e0"/>
+  <rect x="20" y="20" width="40" height="40" fill="#bdbdbd" rx="4"/>
+  <circle cx="32" cy="32" r="5" fill="#9e9e9e"/>
+  <path d="M20 55 L35 40 L45 50 L60 35 L60 60 L20 60 Z" fill="#9e9e9e"/>
+  <text x="40" y="72" font-family="Arial" font-size="8" fill="#757575" text-anchor="middle">Image</text>
+</svg>
