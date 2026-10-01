@@ -23,7 +23,7 @@ function initializeForm() {
     artworkDeadlineInput.setAttribute('min', today);
 }
 
-// Add all event listeners
+// Add event listeners
 function addEventListeners() {
     // Quantity inputs - calculate on change
     const qtyInputs = document.querySelectorAll('.qty-input');
@@ -47,9 +47,7 @@ function addEventListeners() {
     const lateOrderCheckbox = document.getElementById('lateOrder');
     lateOrderCheckbox.addEventListener('change', calculateTotal);
     
-    // Form submission
-    const form = document.getElementById('furnitureForm');
-    form.addEventListener('submit', handleFormSubmit);
+    // NOTE: Form submission removed - now using checkout button
 }
 
 // Update individual row subtotal
@@ -523,3 +521,174 @@ function generateEmailBody(formData) {
 console.log('Furniture Order Form initialized successfully');
 console.log('Total items in catalog:', document.querySelectorAll('.qty-input').length);
 console.log('Email will be sent to: info@globalexhibitions.africa');
+
+// Checkout Page Functions
+function showCheckout() {
+    // Validate form
+    const form = document.getElementById('furnitureForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    // Check if at least one item is selected
+    const qtyInputs = document.querySelectorAll('.qty-input');
+    let hasItems = false;
+    qtyInputs.forEach(input => {
+        if (parseInt(input.value) > 0) {
+            hasItems = true;
+        }
+    });
+    
+    if (!hasItems) {
+        alert('Please select at least one item before proceeding to checkout.');
+        return;
+    }
+    
+    // Collect form data
+    const formData = collectFormData();
+    
+    // Populate checkout page
+    populateCheckout(formData);
+    
+    // Hide form, show checkout
+    document.getElementById('furnitureForm').parentElement.querySelector('.container').style.display = 'none';
+    document.getElementById('checkoutPage').style.display = 'block';
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function populateCheckout(formData) {
+    // Populate items
+    const itemsContainer = document.getElementById('checkoutItems');
+    itemsContainer.innerHTML = '';
+    
+    formData.items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'checkout-item';
+        itemDiv.innerHTML = `
+            <div class="checkout-item-details">
+                <div class="checkout-item-name">${item.name}</div>
+                <div class="checkout-item-qty">Quantity: ${item.quantity} × ${item.price}</div>
+            </div>
+            <div class="checkout-item-price">${item.subtotal}</div>
+        `;
+        itemsContainer.appendChild(itemDiv);
+    });
+    
+    // Populate company info
+    const companyInfo = document.getElementById('checkoutCompanyInfo');
+    companyInfo.innerHTML = `
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Company Name</div>
+            <div class="checkout-info-value">${formData.companyInfo.companyName}</div>
+        </div>
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Contact Person</div>
+            <div class="checkout-info-value">${formData.companyInfo.contactPerson}</div>
+        </div>
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Email</div>
+            <div class="checkout-info-value">${formData.companyInfo.email}</div>
+        </div>
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Phone</div>
+            <div class="checkout-info-value">${formData.companyInfo.phone}</div>
+        </div>
+        ${formData.companyInfo.boothNumber ? `
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Booth Number</div>
+            <div class="checkout-info-value">${formData.companyInfo.boothNumber}</div>
+        </div>` : ''}
+    `;
+    
+    // Populate delivery info
+    const deliveryInfo = document.getElementById('checkoutDeliveryInfo');
+    deliveryInfo.innerHTML = `
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Delivery Date</div>
+            <div class="checkout-info-value">${formatDate(formData.delivery.deliveryDate)}</div>
+        </div>
+        ${formData.delivery.timeSlot ? `
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Time Slot</div>
+            <div class="checkout-info-value">${formData.delivery.timeSlot}</div>
+        </div>` : ''}
+        ${formData.delivery.specialInstructions ? `
+        <div class="checkout-info-item" style="grid-column: 1 / -1;">
+            <div class="checkout-info-label">Special Instructions</div>
+            <div class="checkout-info-value">${formData.delivery.specialInstructions}</div>
+        </div>` : ''}
+    `;
+    
+    // Populate payment info
+    const paymentInfo = document.getElementById('checkoutPaymentInfo');
+    paymentInfo.innerHTML = `
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Payment Method</div>
+            <div class="checkout-info-value">${formatPaymentMethod(formData.payment.method)}</div>
+        </div>
+        <div class="checkout-info-item">
+            <div class="checkout-info-label">Order will be sent to</div>
+            <div class="checkout-info-value">📧 info@globalexhibitions.africa</div>
+        </div>
+    `;
+    
+    // Populate totals
+    document.getElementById('checkoutSubtotal').textContent = formData.orderSummary.subtotal;
+    
+    if (formData.lateOrder) {
+        document.getElementById('checkoutLateFee').style.display = 'flex';
+        document.getElementById('checkoutLateFeeAmount').textContent = formData.orderSummary.lateFee;
+    } else {
+        document.getElementById('checkoutLateFee').style.display = 'none';
+    }
+    
+    document.getElementById('checkoutGrandTotal').innerHTML = `<strong>${formData.orderSummary.total}</strong>`;
+}
+
+function backToForm() {
+    // Show form, hide checkout
+    document.getElementById('furnitureForm').parentElement.querySelector('.container').style.display = 'block';
+    document.getElementById('checkoutPage').style.display = 'none';
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function confirmOrder() {
+    // Show loading state
+    const confirmBtn = event.target;
+    const originalText = confirmBtn.textContent;
+    confirmBtn.textContent = 'Sending Order...';
+    confirmBtn.disabled = true;
+    
+    // Collect form data
+    const formData = collectFormData();
+    
+    // Send email
+    sendOrderEmail(formData);
+    
+    // Simulate sending delay
+    setTimeout(() => {
+        // Hide checkout, show success
+        document.getElementById('checkoutPage').style.display = 'none';
+        document.getElementById('furnitureForm').parentElement.querySelector('.container').style.display = 'block';
+        
+        // Display success message
+        displaySuccessMessage(formData);
+        
+        // Scroll to success
+        document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Re-enable button
+        confirmBtn.textContent = originalText;
+        confirmBtn.disabled = false;
+    }, 1500);
+}
+
+// Make functions globally available
+window.showCheckout = showCheckout;
+window.backToForm = backToForm;
+window.confirmOrder = confirmOrder;

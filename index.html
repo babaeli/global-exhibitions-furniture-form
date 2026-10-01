@@ -730,7 +730,7 @@
 
             <!-- Submit Button -->
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Submit Order</button>
+                <button type="button" class="btn-primary" onclick="showCheckout()">Proceed to Checkout</button>
                 <button type="button" class="btn-secondary" onclick="window.print()">Print Order Form</button>
             </div>
             
@@ -738,6 +738,59 @@
                 📧 Order will be sent to: <strong>info@globalexhibitions.africa</strong>
             </p>
         </form>
+
+        <!-- Checkout Page -->
+        <div id="checkoutPage" class="checkout-page" style="display: none;">
+            <div class="checkout-container">
+                <h2 class="checkout-title">📋 Review Your Order</h2>
+                
+                <!-- Order Summary Section -->
+                <div class="checkout-section">
+                    <h3>Order Summary</h3>
+                    <div id="checkoutItems" class="checkout-items"></div>
+                </div>
+
+                <!-- Company Info Review -->
+                <div class="checkout-section">
+                    <h3>Company Information</h3>
+                    <div id="checkoutCompanyInfo" class="checkout-info"></div>
+                </div>
+
+                <!-- Delivery Info Review -->
+                <div class="checkout-section">
+                    <h3>Delivery Information</h3>
+                    <div id="checkoutDeliveryInfo" class="checkout-info"></div>
+                </div>
+
+                <!-- Payment Info Review -->
+                <div class="checkout-section">
+                    <h3>Payment Information</h3>
+                    <div id="checkoutPaymentInfo" class="checkout-info"></div>
+                </div>
+
+                <!-- Total Section -->
+                <div class="checkout-total">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="checkoutSubtotal">$0.00</span>
+                    </div>
+                    <div class="total-row" id="checkoutLateFee" style="display: none;">
+                        <span>Late Order Surcharge (50%):</span>
+                        <span id="checkoutLateFeeAmount">$0.00</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span><strong>GRAND TOTAL:</strong></span>
+                        <span id="checkoutGrandTotal"><strong>$0.00</strong></span>
+                    </div>
+                </div>
+
+                <!-- Checkout Actions -->
+                <div class="checkout-actions">
+                    <button type="button" class="btn-secondary" onclick="backToForm()">← Back to Edit</button>
+                    <button type="button" class="btn-primary" onclick="confirmOrder()">Confirm & Send Order</button>
+                </div>
+            </div>
+        </div>
 
         <!-- Success Message -->
         <div id="successMessage" class="success-message" style="display: none;">
