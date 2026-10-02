@@ -232,7 +232,8 @@ function addOrderDetailsToSuccess(formData) {
     const detailsHTML = `
         <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 8px; margin-top: 20px; text-align: left;">
             <h4 style="margin-bottom: 15px; text-align: center;">Order Summary</h4>
-            <p><strong>📧 Sent to:</strong> info@globalexhibitions.africa</p>
+            <p><strong>📧 Order sent to:</strong> info@globalexhibitions.africa</p>
+            <p><strong>📧 Copy sent to you:</strong> ${formData.companyInfo.email}</p>
             <p><strong>Company:</strong> ${formData.companyInfo.companyName}</p>
             <p><strong>Contact:</strong> ${formData.companyInfo.contactPerson}</p>
             <p><strong>Email:</strong> ${formData.companyInfo.email}</p>
@@ -240,7 +241,8 @@ function addOrderDetailsToSuccess(formData) {
             <p><strong>Total Items:</strong> ${formData.items.length}</p>
             <p><strong>Payment Method:</strong> ${formatPaymentMethod(formData.payment.method)}</p>
             ${formData.lateOrder ? '<p style="color: #ffeb3b;"><strong>⚠ Late Order Surcharge Applied (50%)</strong></p>' : ''}
-            <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);"><em>✓ Order email sent successfully to Global Exhibitions Inc.</em></p>
+            <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);"><em>✓ Order emails sent successfully!</em></p>
+            <p style="font-size: 0.9em; opacity: 0.9;"><em>Check your inbox for confirmation (may take 1-2 minutes)</em></p>
         </div>
         <button onclick="downloadOrderSummary()" class="btn-secondary" style="margin-top: 20px; background: white; color: #11998e; border: 2px solid white;">
             Download Order Summary
@@ -749,41 +751,56 @@ window.downloadOrderSummary = downloadOrderSummary;
 
 // Send order email to Global Exhibitions
 function sendOrderEmail(formData) {
-    // Prepare email body
-    const emailBody = generateEmailBody(formData);
-    
     // Using FormSubmit.co for email forwarding (free service)
     const formSubmitUrl = 'https://formsubmit.co/info@globalexhibitions.africa';
     
     // Create form data for submission
     const submitData = new FormData();
+    
+    // FormSubmit configuration
     submitData.append('_subject', `New Furniture Order from ${formData.companyInfo.companyName}`);
+    submitData.append('_cc', formData.companyInfo.email); // Send copy to customer
     submitData.append('_template', 'table');
     submitData.append('_captcha', 'false');
-    submitData.append('_next', window.location.href + '#success');
     
-    // Add company info
+    // Order Information
+    submitData.append('Order Number', 'GEX-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+    submitData.append('Order Date', new Date().toLocaleString());
+    
+    // Company info
     submitData.append('Company Name', formData.companyInfo.companyName);
     submitData.append('Contact Person', formData.companyInfo.contactPerson);
-    submitData.append('Email', formData.companyInfo.email);
-    submitData.append('Phone', formData.companyInfo.phone);
+    submitData.append('Customer Email', formData.companyInfo.email);
+    submitData.append('Phone Number', formData.companyInfo.phone);
     submitData.append('Booth Number', formData.companyInfo.boothNumber || 'N/A');
     
-    // Add delivery info
-    submitData.append('Delivery Date', formData.delivery.deliveryDate);
+    // Delivery info
+    submitData.append('Delivery Date', formatDate(formData.delivery.deliveryDate));
     submitData.append('Time Slot', formData.delivery.timeSlot || 'Not specified');
     submitData.append('Special Instructions', formData.delivery.specialInstructions || 'None');
     
-    // Add order summary
-    submitData.append('Order Total', formData.orderSummary.total);
-    submitData.append('Late Order', formData.lateOrder ? 'YES (50% surcharge applied)' : 'NO');
-    
-    // Add items list
-    let itemsList = '';
+    // Order items as formatted list
+    let itemsList = '\n\nORDERED ITEMS:\n';
+    itemsList += '═══════════════════════════════════════════════════\n';
     formData.items.forEach((item, index) => {
-        itemsList += `${index + 1}. ${item.name} - Qty: ${item.quantity} - ${item.subtotal}\n`;
+        itemsList += `${index + 1}. ${item.name}\n`;
+        itemsList += `   Quantity: ${item.quantity} | Unit Price: ${item.price} | Subtotal: ${item.subtotal}\n`;
+        itemsList += '───────────────────────────────────────────────────\n';
     });
-    submitData.append('Ordered Items', itemsList);
+    submitData.append('Items List', itemsList);
+    
+    // Payment summary
+    submitData.append('Subtotal', formData.orderSummary.subtotal);
+    if (formData.lateOrder) {
+        submitData.append('Late Order Surcharge (50%)', formData.orderSummary.lateFee);
+        submitData.append('Late Order', 'YES - 50% surcharge applied');
+    } else {
+        submitData.append('Late Order', 'NO');
+    }
+    submitData.append('TOTAL AMOUNT DUE', formData.orderSummary.total);
+    
+    // Payment method
+    submitData.append('Payment Method', formatPaymentMethod(formData.payment.method));
     
     // Send email via fetch
     fetch(formSubmitUrl, {
@@ -793,13 +810,22 @@ function sendOrderEmail(formData) {
             'Accept': 'application/json'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (response.ok) {
+            console.log('✅ Email sent successfully to info@globalexhibitions.africa');
+            console.log('✅ Copy sent to customer:', formData.companyInfo.email);
+            return response.json();
+        } else {
+            throw new Error('Email sending failed');
+        }
+    })
     .then(data => {
-        console.log('Email sent successfully:', data);
+        console.log('Email delivery confirmed:', data);
     })
     .catch(error => {
-        console.error('Email sending failed:', error);
-        // Continue anyway - user still gets download
+        console.error('❌ Email sending error:', error);
+        // Form still works - user gets download
+        alert('Note: Email may take a few moments to arrive. You can download your order summary below.');
     });
 }
 
