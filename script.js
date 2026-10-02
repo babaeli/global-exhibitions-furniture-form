@@ -279,82 +279,401 @@ function generateOrderSummary(formData) {
     currentOrderData = formData;
 }
 
-// Download order summary as text file
+// Download order summary as HTML ticket/receipt
 function downloadOrderSummary() {
     if (!currentOrderData) return;
     
-    let content = '=====================================================\n';
-    content += '   GLOBAL EXHIBITIONS INC. - ORDER CONFIRMATION\n';
-    content += '=====================================================\n\n';
+    // Generate order number
+    const orderNumber = 'GEX-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     
-    content += 'ORDER DATE: ' + new Date().toLocaleString() + '\n\n';
+    // Create HTML content for ticket-style order form
+    const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order Form - ${currentOrderData.companyInfo.companyName}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            background: white;
+            color: #333;
+        }
+        .ticket-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 3px solid #1e3c72;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .ticket-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .company-logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .ticket-title {
+            font-size: 24px;
+            margin: 15px 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .order-number {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .ticket-body {
+            padding: 30px;
+            background: white;
+        }
+        .section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .info-item {
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 5px;
+        }
+        .info-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .info-value {
+            font-size: 14px;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .items-table thead {
+            background: #1e3c72;
+            color: white;
+        }
+        .items-table th {
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .items-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+        }
+        .items-table tbody tr:hover {
+            background: #f8f9ff;
+        }
+        .items-table .item-qty {
+            text-align: center;
+            font-weight: bold;
+        }
+        .items-table .item-price {
+            text-align: right;
+            font-weight: 600;
+        }
+        .total-section {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 15px;
+        }
+        .total-row.subtotal {
+            color: #666;
+        }
+        .total-row.late-fee {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+        .total-row.grand-total {
+            border-top: 3px solid #1e3c72;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        .bank-details {
+            background: #fff9e6;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .bank-details h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .bank-details table {
+            width: 100%;
+            font-size: 13px;
+        }
+        .bank-details td {
+            padding: 6px 0;
+        }
+        .bank-details td:first-child {
+            font-weight: bold;
+            color: #666;
+            width: 40%;
+        }
+        .ticket-footer {
+            background: #1e3c72;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .ticket-footer p {
+            margin: 5px 0;
+        }
+        .qr-placeholder {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.2);
+            margin: 10px auto;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        @media print {
+            body {
+                padding: 0;
+            }
+            .ticket-container {
+                box-shadow: none;
+                border: 2px solid #1e3c72;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <!-- Header -->
+        <div class="ticket-header">
+            <div class="company-logo">GLOBAL EXHIBITIONS INC.</div>
+            <div style="font-size: 12px; opacity: 0.9;">Cardinal Otunga Plaza - Annex | P.O. Box 53920-00200</div>
+            <div style="font-size: 12px; opacity: 0.9;">📧 info@globalexhibitions.africa | 📞 +254 794 007 810</div>
+            <div class="ticket-title">Furniture Order Form</div>
+            <div class="order-number">ORDER #${orderNumber}</div>
+            <div style="margin-top: 10px; font-size: 13px;">Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+        </div>
+
+        <!-- Body -->
+        <div class="ticket-body">
+            <!-- Company Information -->
+            <div class="section">
+                <div class="section-title">📋 Company Information</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Company Name</div>
+                        <div class="info-value">${currentOrderData.companyInfo.companyName}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Contact Person</div>
+                        <div class="info-value">${currentOrderData.companyInfo.contactPerson}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email Address</div>
+                        <div class="info-value">${currentOrderData.companyInfo.email}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phone Number</div>
+                        <div class="info-value">${currentOrderData.companyInfo.phone}</div>
+                    </div>
+                    ${currentOrderData.companyInfo.boothNumber ? `
+                    <div class="info-item">
+                        <div class="info-label">Booth Number</div>
+                        <div class="info-value">${currentOrderData.companyInfo.boothNumber}</div>
+                    </div>` : ''}
+                </div>
+            </div>
+
+            <!-- Delivery Information -->
+            <div class="section">
+                <div class="section-title">🚚 Delivery Information</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Delivery Date</div>
+                        <div class="info-value">${formatDate(currentOrderData.delivery.deliveryDate)}</div>
+                    </div>
+                    ${currentOrderData.delivery.timeSlot ? `
+                    <div class="info-item">
+                        <div class="info-label">Time Slot</div>
+                        <div class="info-value">${currentOrderData.delivery.timeSlot}</div>
+                    </div>` : ''}
+                    ${currentOrderData.delivery.specialInstructions ? `
+                    <div class="info-item" style="grid-column: 1 / -1;">
+                        <div class="info-label">Special Instructions</div>
+                        <div class="info-value">${currentOrderData.delivery.specialInstructions}</div>
+                    </div>` : ''}
+                </div>
+            </div>
+
+            <!-- Ordered Items -->
+            <div class="section">
+                <div class="section-title">🛋️ Ordered Items</div>
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Item Description</th>
+                            <th style="text-align: center;">Qty</th>
+                            <th style="text-align: right;">Unit Price</th>
+                            <th style="text-align: right;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${currentOrderData.items.map((item, index) => `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.name}</td>
+                            <td class="item-qty">${item.quantity}</td>
+                            <td class="item-price">${item.price}</td>
+                            <td class="item-price">${item.subtotal}</td>
+                        </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="section">
+                <div class="section-title">💳 Payment Summary</div>
+                <div class="total-section">
+                    <div class="total-row subtotal">
+                        <span>Subtotal:</span>
+                        <span>${currentOrderData.orderSummary.subtotal}</span>
+                    </div>
+                    ${currentOrderData.lateOrder ? `
+                    <div class="total-row late-fee">
+                        <span>Late Order Surcharge (50%):</span>
+                        <span>${currentOrderData.orderSummary.lateFee}</span>
+                    </div>` : ''}
+                    <div class="total-row grand-total">
+                        <span>TOTAL AMOUNT DUE:</span>
+                        <span>${currentOrderData.orderSummary.total}</span>
+                    </div>
+                </div>
+                
+                <div class="info-item" style="margin-top: 15px;">
+                    <div class="info-label">Payment Method</div>
+                    <div class="info-value">${formatPaymentMethod(currentOrderData.payment.method)}</div>
+                </div>
+
+                ${currentOrderData.payment.method === 'bank-transfer' ? `
+                <div class="bank-details">
+                    <h4>💰 Bank Transfer Details</h4>
+                    <table>
+                        <tr><td>Account Name:</td><td>GLOBAL EXHIBITIONS INCORPORATED LIMITED</td></tr>
+                        <tr><td>Bank Name:</td><td>STANBIC BANK</td></tr>
+                        <tr><td>Branch:</td><td>INTERNATIONAL LIFE HOUSE</td></tr>
+                        <tr><td>Account No (USD):</td><td>0100003753594</td></tr>
+                        <tr><td>Account No (KES):</td><td>0100003753586</td></tr>
+                        <tr><td>SWIFT Code:</td><td>SBICKENX</td></tr>
+                        <tr><td>Bank Code:</td><td>31</td></tr>
+                        <tr><td>Branch Code:</td><td>008</td></tr>
+                    </table>
+                </div>` : ''}
+            </div>
+
+            <!-- Terms -->
+            <div class="section">
+                <div class="section-title">📜 Terms & Conditions</div>
+                <div style="font-size: 12px; line-height: 1.6; color: #666;">
+                    ✓ All prices are inclusive of taxes<br>
+                    ✓ Payment in full must be received before build-up<br>
+                    ✓ Exhibitors are responsible for the condition of all rented furniture<br>
+                    ✓ Damaged or missing items will be charged at replacement cost<br>
+                    ${currentOrderData.lateOrder ? '⚠ 50% late order surcharge has been applied<br>' : ''}
+                    ✓ Complete this form 15 days before the event
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="ticket-footer">
+            <p style="font-size: 14px; font-weight: bold; margin-bottom: 10px;">Thank you for your order!</p>
+            <p>For inquiries, contact us at info@globalexhibitions.africa or call +254 794 007 810</p>
+            <p style="margin-top: 10px; font-size: 10px; opacity: 0.8;">
+                This is an official order form from Global Exhibitions Inc. - A Decade of Excellence
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+    `;
     
-    content += '--- COMPANY INFORMATION ---\n';
-    content += 'Company Name: ' + currentOrderData.companyInfo.companyName + '\n';
-    content += 'Contact Person: ' + currentOrderData.companyInfo.contactPerson + '\n';
-    content += 'Email: ' + currentOrderData.companyInfo.email + '\n';
-    content += 'Phone: ' + currentOrderData.companyInfo.phone + '\n';
-    content += 'Booth Number: ' + (currentOrderData.companyInfo.boothNumber || 'N/A') + '\n\n';
-    
-    content += '--- DELIVERY INFORMATION ---\n';
-    content += 'Delivery Date: ' + formatDate(currentOrderData.delivery.deliveryDate) + '\n';
-    content += 'Time Slot: ' + (currentOrderData.delivery.timeSlot || 'Not specified') + '\n';
-    content += 'Special Instructions: ' + (currentOrderData.delivery.specialInstructions || 'None') + '\n';
-    content += 'Artwork Deadline: ' + (formatDate(currentOrderData.delivery.artworkDeadline) || 'N/A') + '\n\n';
-    
-    content += '--- ORDERED ITEMS ---\n';
-    currentOrderData.items.forEach((item, index) => {
-        content += `${index + 1}. ${item.name}\n`;
-        content += `   Price: ${item.price} | Quantity: ${item.quantity} | Subtotal: ${item.subtotal}\n\n`;
-    });
-    
-    content += '--- PAYMENT SUMMARY ---\n';
-    content += 'Subtotal: ' + currentOrderData.orderSummary.subtotal + '\n';
-    if (currentOrderData.lateOrder) {
-        content += 'Late Order Surcharge (50%): ' + currentOrderData.orderSummary.lateFee + '\n';
-    }
-    content += 'TOTAL AMOUNT DUE: ' + currentOrderData.orderSummary.total + '\n\n';
-    
-    content += '--- PAYMENT INFORMATION ---\n';
-    content += 'Payment Method: ' + formatPaymentMethod(currentOrderData.payment.method) + '\n\n';
-    
-    if (currentOrderData.payment.method === 'bank-transfer') {
-        content += 'BANK DETAILS:\n';
-        content += 'Account Name: GLOBAL EXHIBITIONS INCORPORATED LIMITED\n';
-        content += 'Bank Name: STANBIC BANK\n';
-        content += 'Branch: INTERNATIONAL LIFE HOUSE\n';
-        content += 'Account No (USD): 0100003753594\n';
-        content += 'Account No (KES): 0100003753586\n';
-        content += 'SWIFT Code: SBICKENX\n';
-        content += 'Bank Code: 31\n';
-        content += 'Branch Code: 008\n\n';
-    }
-    
-    content += '--- TERMS & CONDITIONS ---\n';
-    content += '- Payment in full must be received before build-up\n';
-    content += '- Exhibitors are responsible for condition of rented furniture\n';
-    content += '- Damaged/missing items charged at replacement cost\n';
-    if (currentOrderData.lateOrder) {
-        content += '- 50% late order surcharge has been applied\n';
-    }
-    content += '\n';
-    content += '=====================================================\n';
-    content += 'Thank you for your order!\n';
-    content += 'Global Exhibitions Inc.\n';
-    content += 'Email: info@globalexhibitions.africa\n';
-    content += 'Tel: +254 794 007 810\n';
-    content += '=====================================================\n';
-    
-    // Create download
-    const blob = new Blob([content], { type: 'text/plain' });
+    // Create blob and download
+    const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Furniture_Order_' + currentOrderData.companyInfo.companyName.replace(/\s+/g, '_') + '_' + new Date().getTime() + '.txt';
+    a.download = 'Order_' + orderNumber + '_' + currentOrderData.companyInfo.companyName.replace(/\s+/g, '_') + '.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
+    
+    // Show message about opening the file
+    setTimeout(() => {
+        alert('Order form downloaded! Open the HTML file in your browser and use Print > Save as PDF to create a PDF.');
+    }, 500);
 }
 
 // Quick select helpers (optional enhancement)
